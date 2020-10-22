@@ -602,11 +602,11 @@ function LayoutDesign {
         Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
         Exit
     }
-    Import-StartLayout -LayoutPath "c:\Freshly\PCdeploy\LayoutModification.xml" -MountPath $env:SystemDrive\
+    Import-StartLayout -LayoutPath "C:\Freshly\Freshly-main\LayoutModification.xml" -MountPath $env:SystemDrive\
     }
     
 function ApplyDefaultApps {
-    dism /online /Import-DefaultAppAssociations:c:\Freshly\PCdeploy\AppAssociations.xml
+    dism /online /Import-DefaultAppAssociations:C:\Freshly\Freshly-main\AppAssociations.xml
 }
 
 function AutomateShortcut {
@@ -659,7 +659,7 @@ function SonicPower {
 
 function SonicLocalAdmin{
 ###Create Sonic Support User and add as Local Admin###
-$pass = Import-Clixml -Path C:\Freshly\PCdeploy\localuse.xml
+$pass = Import-Clixml -Path C:\Freshly\Freshly-main\localuse.xml
 New-LocalUser "Sonic" -Full Name "Sonic Systems Support User"
 Add-LocalGroupMember -Group "Administrators" -Member "Sonic"
 }
