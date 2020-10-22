@@ -624,6 +624,13 @@ function SonicPower {
     POWERCFG -CHANGE -hibernate-timeout-dc 0
 }
 
+function SonicLocalAdmin{
+###Create Sonic Support User and add as Local Admin###
+$pass = Import-Clixml -Path C:\Freshly\PCdeploy\localuse.xml
+New-LocalUser "Sonic" -Full Name "Sonic Systems Support User"
+Add-LocalGroupMember -Group "Administrators" -Member "Sonic"
+}
+
 function RestartPC{
     ##########
     # Restart
@@ -641,5 +648,6 @@ ReclaimWindows10
 LayoutDesign
 ApplyDefaultApps
 SonicPower
+SonicLocalAdmin
 SetPCName
 RestartPC
