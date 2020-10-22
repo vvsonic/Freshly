@@ -609,6 +609,39 @@ function ApplyDefaultApps {
     dism /online /Import-DefaultAppAssociations:c:\Freshly\PCdeploy\AppAssociations.xml
 }
 
+function AutomateShortcut {
+    #Creates Desktop Shortcut to Automate Login Page#
+    param(
+        [string]$ShortcutName         = "Download Sonic Agent",
+        [string]$ShortcutUrl          = "https://automate.vvsonic.com/automate/",
+        [string]$ShortcutIconLocation = "https://automate.vvsonic.com/automate/favicon.ico",
+        [bool]$ShortcutOnDesktop      = $true,
+        [bool]$ShortcutInStartMenu    = $true
+    )
+    
+    $WScriptShell = New-Object -ComObject WScript.Shell
+    
+    if ($ShortcutOnDesktop) {
+        $Shortcut = $WScriptShell.CreateShortcut("$env:USERPROFILE\Desktop\$ShortcutName.lnk") 
+        $Shortcut.TargetPath = $ShortcutUrl
+        if ($ShortcutIconLocation) {
+            $Shortcut.IconLocation = $ShortcutIconLocation
+        }
+        $Shortcut.Save()
+    }
+    
+    if ($ShortCutInStartMenu) {
+        $Shortcut = $WScriptShell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\$ShortcutName.lnk") 
+        $Shortcut.TargetPath = $ShortcutUrl 
+        if ($ShortcutIconLocation) {
+            $Shortcut.IconLocation = $ShortcutIconLocation
+        }
+        $Shortcut.Save()
+    }
+    
+    
+}
+
 # Custom power profile used for our customers. Ensures systems do not go to sleep.
 function SonicPower {
     POWERCFG -DUPLICATESCHEME 381b4222-f694-41f0-9685-ff5bb260df2e 381b4222-f694-41f0-9685-ff5bb260aaaa
@@ -647,6 +680,7 @@ InstallApps
 ReclaimWindows10
 LayoutDesign
 ApplyDefaultApps
+AutomateShortcut
 SonicPower
 SonicLocalAdmin
 SetPCName
