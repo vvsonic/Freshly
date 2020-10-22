@@ -1,10 +1,5 @@
 Set-ExecutionPolicy -ExecutionPolicy Bypass
 
-# Lower UAC level
-Write-Host "Lowering UAC level..."
-Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 0
-
 # Begin by creating the various functions which will be called at the end of the script. You can create additional functions if needed.
 function SetPCName {
     # In our MSP we designate all systems in the format devicetype-companyname-assetid for example DT-MSP-000001 keep in mind that this is the maximum length Windows allows for system names
@@ -183,6 +178,12 @@ function ReclaimWindows10 {
     ##########
     # Service Tweaks
     ##########
+
+    # Lower UAC level
+    # Write-Host "Lowering UAC level..."
+    # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
+    # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 0
+
 
     # Raise UAC level
     # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
@@ -483,7 +484,7 @@ function ReclaimWindows10 {
     Get-AppxPackage "Microsoft.Getstarted" | Remove-AppxPackage
     Get-AppxPackage "Microsoft.MicrosoftOfficeHub" | Remove-AppxPackage
     Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxPackage
-    # Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage
+    Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage
     Get-AppxPackage "Microsoft.People" | Remove-AppxPackage
     # Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
     # Get-AppxPackage "Microsoft.Windows.Photos" | Remove-AppxPackage
@@ -501,7 +502,7 @@ function ReclaimWindows10 {
     # Get-AppxPackage "Microsoft.Office.Sway" | Remove-AppxPackage
     # Get-AppxPackage "Microsoft.Messaging" | Remove-AppxPackage
     # Get-AppxPackage "Microsoft.CommsPhone" | Remove-AppxPackage
-    # Get-AppxPackage "9E2F88E3.Twitter" | Remove-AppxPackage
+    Get-AppxPackage "9E2F88E3.Twitter" | Remove-AppxPackage
     Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
     Get-AppxPackage "king.com.CandyCrushSaga" | Remove-AppxPackage
     Get-AppxPackage "king.com.CandyCrushFriends" | Remove-AppxPackage
