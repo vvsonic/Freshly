@@ -1,4 +1,9 @@
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy -ExecutionPolicy Bypass
+
+# Lower UAC level
+Write-Host "Lowering UAC level..."
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 0
 
 # Begin by creating the various functions which will be called at the end of the script. You can create additional functions if needed.
 function SetPCName {
@@ -178,11 +183,6 @@ function ReclaimWindows10 {
     ##########
     # Service Tweaks
     ##########
-
-    # Lower UAC level
-    # Write-Host "Lowering UAC level..."
-    # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
-    # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 0
 
     # Raise UAC level
     # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
@@ -660,7 +660,7 @@ function SonicPower {
 function SonicLocalAdmin{
 ###Create Sonic Support User and add as Local Admin###
 $pass = Import-Clixml -Path C:\Freshly\Freshly-main\localuse.xml
-New-LocalUser "Sonic" -Full Name "Sonic Systems Support User"
+New-LocalUser "Sonic" 
 Add-LocalGroupMember -Group "Administrators" -Member "Sonic"
 }
 
