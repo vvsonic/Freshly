@@ -623,7 +623,7 @@ function AutomateShortcut {
     $WScriptShell = New-Object -ComObject WScript.Shell
     
     if ($ShortcutOnDesktop) {
-        $Shortcut = $WScriptShell.CreateShortcut("$env:%public%\Desktop\$ShortcutName.lnk") 
+        $Shortcut = $WScriptShell.CreateShortcut("$env:USERPROFILE\Desktop\$ShortcutName.lnk") 
         $Shortcut.TargetPath = $ShortcutUrl
         if ($ShortcutIconLocation) {
             $Shortcut.IconLocation = $ShortcutIconLocation
