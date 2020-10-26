@@ -660,9 +660,14 @@ function SonicPower {
 
 function SonicLocalAdmin{
 ###Create Sonic Support User and add as Local Admin###
-$pass = Import-Clixml -Path "C:\Freshly\Freshly-main\localuse.xml"
-New-LocalUser "Sonic" -Password $pass
+Import-Module C:\freshly\Freshly-main\Cred\CredentialManager.psm1
+Get-StoredCredential -Name Sonic -StorePath C:\Freshly\Freshly-main\Cred\
+
+$cred = Get-StoredCredential -Name Sonic -StorePath C:\Freshly\Freshly-main\Cred\
+
+New-LocalUser "Sonic" -Password $Cred.password
 Add-LocalGroupMember -Group "Administrators" -Member "Sonic"
+
 }
 
 function RestartPC{
