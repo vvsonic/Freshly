@@ -665,12 +665,19 @@ $AESKeyFilePath = 'C:\Freshly\Freshly-main\Cred\keys.txt'
 $AESKeyFile = Get-Content $AESKeyFilePath
 $pwdtxt = Get-Content $securepwdfilepath
 $passwd = $pwdtxt | ConvertTo-SecureString -Key $AESKeyFile
-
 $user = "Sonic"
+#Check if User Exists Already
+$op = Get-LocalUSer | where-Object Name -eq "sonic" | Measure
+if ($op.Count -eq 0) {
+     #Create User and Add to Local Admin Group
+     New-LocalUser $user -Password $passwd
+     Add-LocalGroupMember -Group "Administrators" -Member $user
 
-New-LocalUser $user -Password $passwd
+} else {
+     # Reset Password for User to new Password
+     Set-LocalUser -Name $user -Password $passwd
+}
 
-Add-LocalGroupMember -Group "Administrators" -Member $user
 
 }
 
