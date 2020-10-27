@@ -25,10 +25,10 @@ function InstallChoco {
 
 function InstallApps {
     # Install the first set of applications. these are quick so ive added them separately
-    choco upgrade adobereader microsoft-edge googlechrome firefox 7zip.install notepadplusplus.install sysinternals everything --install-if-not-installed -y
+    choco upgrade adobereader microsoft-edge googlechrome firefox 7zip.install notepadplusplus.install everything --install-if-not-installed -y
     # Install Office365 applications. This takes a while so is done separately. You can change the options here by following the instructions here: https://chocolatey.org/packages/microsoft-office-deployment
     # choco install microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /64bit /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y
-    choco install microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y
+    #choco upgrade microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y 
 }
 
 function ReclaimWindows10 {
@@ -660,13 +660,17 @@ function SonicPower {
 
 function SonicLocalAdmin{
 ###Create Sonic Support User and add as Local Admin###
-Import-Module C:\freshly\Freshly-main\Cred\CredentialManager.psm1
-Get-StoredCredential -Name Sonic -StorePath C:\Freshly\Freshly-main\Cred\
+$securepwdfilepath = 'C:\Freshly\Cred\pass.file'
+$AESKeyFilePath = 'C:\Freshly\Cred\keys.txt'
+$AESKeyFile = Get-Content $AESKeyFilePath
+$pwdtxt = Get-Content $securepwdfilepath
+$passwd = $pwdtxt | ConvertTo-SecureString -Key $AESKeyFile
 
-$cred = Get-StoredCredential -Name Sonic -StorePath C:\Freshly\Freshly-main\Cred\
+$user = "Sonic"
 
-New-LocalUser "Sonic" -Password $Cred.password
-Add-LocalGroupMember -Group "Administrators" -Member "Sonic"
+New-LocalUser $user -Password $passwd
+
+Add-LocalGroupMember -Group "Administrators" -Member $user
 
 }
 
