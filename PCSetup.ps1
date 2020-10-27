@@ -660,8 +660,8 @@ function SonicPower {
 
 function SonicLocalAdmin{
 ###Create Sonic Support User and add as Local Admin###
-$securepwdfilepath = 'C:\Freshly\Cred\pass.file'
-$AESKeyFilePath = 'C:\Freshly\Cred\keys.txt'
+$securepwdfilepath = 'C:\Freshly\Freshly-main\Cred\pass.file'
+$AESKeyFilePath = 'C:\Freshly\Freshly-main\Cred\keys.txt'
 $AESKeyFile = Get-Content $AESKeyFilePath
 $pwdtxt = Get-Content $securepwdfilepath
 $passwd = $pwdtxt | ConvertTo-SecureString -Key $AESKeyFile
