@@ -6,7 +6,7 @@ function SetPCName {
     # This function creates VisualBasic pop-up prompts which ask for this information to be input. You can hange these as needed to suite your MSP
     Add-Type -AssemblyName Microsoft.VisualBasic
     #$DeviceType = [Microsoft.VisualBasic.Interaction]::InputBox('Enter Device Type (LT or DT)', 'Device Type')
-    $SystemID = [Microsoft.VisualBasic.Interaction]::InputBox('Enter a Systen ID #')
+    $SystemID = [Microsoft.VisualBasic.Interaction]::InputBox('Enter a System ID #')
     $CompanyName = [Microsoft.VisualBasic.Interaction]::InputBox('Enter Company Name, Abbreviation', 'Company Initials')
     Write-Output "The asset ID is $AssetID"
     Write-Output "$SystemID-$CompanyName"
