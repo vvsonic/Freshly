@@ -654,8 +654,9 @@ function SonicPower {
     POWERCFG -CHANGE -disk-timeout-dc 5
     POWERCFG -CHANGE -standby-timeout-ac 0
     POWERCFG -CHANGE -standby-timeout-dc 30
-    POWERCFG -CHANGE -hibernate-timeout-ac 0
-    POWERCFG -CHANGE -hibernate-timeout-dc 0
+    POWERCFG -Hibernate off
+    del "C:\hiberfil.sys" /f 
+    
 }
 
 function SonicLocalAdmin{
