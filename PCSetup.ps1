@@ -656,7 +656,7 @@ function SonicPower {
     POWERCFG -CHANGE -standby-timeout-ac 0
     POWERCFG -CHANGE -standby-timeout-dc 30
     POWERCFG -Hibernate off
-    Remove-Item "C:\hiberfil.sys" /f /q 
+    del "C:\hiberfil.sys" /f /q 
     
 }
 
