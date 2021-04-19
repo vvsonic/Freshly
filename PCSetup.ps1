@@ -31,7 +31,8 @@ function InstallApps {
     #choco upgrade microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y 
 }
 
-function ReclaimWindows10 {
+function ReclaimWindows10 
+{
     # Ask for elevated permissions if required
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
         Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
@@ -109,20 +110,20 @@ function ReclaimWindows10 {
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled"
 
     # Disable Cortana
-    #Write-Host "Disabling Cortana..."
-    #If (!(Test-Path "HKCU:\Software\Microsoft\Personalization\Settings")) {
-     #   New-Item -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Force | Out-Null
-    #}
-    #Set-ItemProperty -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
-    #If (!(Test-Path "HKCU:\Software\Microsoft\InputPersonalization")) {
-     #   New-Item -Path "HKCU:\Software\Microsoft\InputPersonalization" -Force | Out-Null
+    Write-Host "Disabling Cortana..."
+    If (!(Test-Path "HKCU:\Software\Microsoft\Personalization\Settings")) {
+        New-Item -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Force | Out-Null
     }
-    #Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
-    #Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
-    #If (!(Test-Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore")) {
-     #   New-Item -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Force | Out-Null
-    #}
-    #Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
+    If (!(Test-Path "HKCU:\Software\Microsoft\InputPersonalization")) {
+       New-Item -Path "HKCU:\Software\Microsoft\InputPersonalization" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
+    If (!(Test-Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore")) {
+       New-Item -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
 
     # Enable Cortana
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy"
@@ -179,10 +180,10 @@ function ReclaimWindows10 {
     # Service Tweaks
     ##########
 
-    # Lower UAC level
-    # Write-Host "Lowering UAC level..."
-    # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
-    # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 0
+    #Lower UAC level
+    Write-Host "Lowering UAC level..."
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 0
 
 
     # Raise UAC level
@@ -354,12 +355,12 @@ function ReclaimWindows10 {
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo"
 
     # Show Computer shortcut on desktop
-    # Write-Host "Showing Computer shortcut on desktop..."
-    # If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
-    #   New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" | Out-Null
-    # }
-    # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
-    # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
+    Write-Host "Showing Computer shortcut on desktop..."
+    If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
+        New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
 
     # Hide Computer shortcut from desktop
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}"
@@ -595,7 +596,7 @@ function ReclaimWindows10 {
     #   New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
     # }
     # Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse
-
+}
    
 # Uploads a default layout to all NEW users that log into the system. Effects task bar and start menu
 function LayoutDesign {
@@ -655,7 +656,7 @@ function SonicPower {
     POWERCFG -CHANGE -standby-timeout-ac 0
     POWERCFG -CHANGE -standby-timeout-dc 30
     POWERCFG -Hibernate off
-    del "C:\hiberfil.sys" /f /q 
+    Remove-Item "C:\hiberfil.sys" /f /q 
     
 }
 
