@@ -679,9 +679,17 @@ if ($op.Count -eq 0) {
 } else {
      # Reset Password for User to new Password
      Set-LocalUser -Name $user -Password $passwd
+    }
+
 }
 
-
+function RunOnce
+{
+    #Copy default settings script to Program Data folder
+    #Import Registry file to set RunOnce settings
+    mkdir "C:\ProgramData\Freshly"
+    robocopy C:\Freshly\Freshly-main\SonicSettings\ C:\ProgramData\Freshly
+    Invoke-Command {reg import "C:\ProgramData\Freshly\sonicdefaults.reg" *>&1 | Out-Null}
 }
 
 function RestartPC{
@@ -695,6 +703,7 @@ function RestartPC{
     Restart-Computer
 }
 
+
 InstallChoco
 InstallApps
 ReclaimWindows10
@@ -703,5 +712,6 @@ ApplyDefaultApps
 AutomateShortcut
 SonicPower
 SonicLocalAdmin
+RunOnce
 SetPCName
 RestartPC
