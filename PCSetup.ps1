@@ -91,20 +91,20 @@ function ReclaimWindows10
 
     # Disable Feedback
     Write-Host "Disabling Feedback..."
-    If (!(Test-Path "HKCU:\Software\Microsoft\Siuf\Rules")) {
-        New-Item -Path "HKCU:\Software\Microsoft\Siuf\Rules" -Force | Out-Null
+    If (!(Test-Path "HKLM:\Software\Microsoft\Siuf\Rules")) {
+        New-Item -Path "HKLM:\Software\Microsoft\Siuf\Rules" -Force | Out-Null
     }
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
 
     # Enable Feedback
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod"
 
     # Disable Advertising ID
     Write-Host "Disabling Advertising ID..."
-    If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) {
-        New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" | Out-Null
+    If (!(Test-Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) {
+        New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" | Out-Null
     }
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
 
     # Enable Advertising ID
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled"
@@ -254,11 +254,11 @@ function ReclaimWindows10
 
     # Disable Action Center
     Write-Host "Disabling Action Center..."
-    If (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer")) {
-      New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" | Out-Null
+    If (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Explorer")) {
+      New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\Explorer" | Out-Null
     }
-    Set-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
 
     # Enable Action Center
     # Remove-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter"
@@ -276,17 +276,17 @@ function ReclaimWindows10
 
     # Disable Autoplay
     Write-Host "Disabling Autoplay..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
 
     # Enable Autoplay
     # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 0
 
     # Disable Autorun for all drives
      Write-Host "Disabling Autorun for all drives..."
-     If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
-       New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+     If (!(Test-Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+       New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
     }
-     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
+     Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
 
     # Enable Autorun
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun"
@@ -307,7 +307,7 @@ function ReclaimWindows10
 
     # Hide Task View button
     Write-Host "Hiding Task View button..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
     # Show Task View button
     # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton"
@@ -335,7 +335,7 @@ function ReclaimWindows10
 
     # Show known file extensions
     Write-Host "Showing known file extensions..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 0
 
     # Hide known file extensions
     # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 1
@@ -683,15 +683,6 @@ if ($op.Count -eq 0) {
 
 }
 
-function RunOnce
-{
-    #Copy default settings script to Program Data folder
-    #Import Registry file to set RunOnce settings
-    mkdir "C:\ProgramData\Freshly"
-    robocopy C:\Freshly\Freshly-main\SonicSettings\ C:\ProgramData\Freshly
-    Invoke-Command {reg import "C:\ProgramData\Freshly\sonicdefaults.reg" *>&1 | Out-Null}
-}
-
 function RestartPC{
     ##########
     # Restart
@@ -712,6 +703,5 @@ ApplyDefaultApps
 AutomateShortcut
 SonicPower
 SonicLocalAdmin
-RunOnce
 SetPCName
 RestartPC
