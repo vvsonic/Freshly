@@ -2,14 +2,11 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 
 # Begin by creating the various functions which will be called at the end of the script. You can create additional functions if needed.
 function SetPCName {
-    # In our MSP we designate all systems in the format devicetype-companyname-assetid for example DT-MSP-000001 keep in mind that this is the maximum length Windows allows for system names
-    # This function creates VisualBasic pop-up prompts which ask for this information to be input. You can hange these as needed to suite your MSP
+    # In our MSP we designate all systems in the format assetid-companyname for example 288111-SS
     Add-Type -AssemblyName Microsoft.VisualBasic
-    #$DeviceType = [Microsoft.VisualBasic.Interaction]::InputBox('Enter Device Type (LT or DT)', 'Device Type')
     $SystemID = [Microsoft.VisualBasic.Interaction]::InputBox('Enter a System ID #')
     $CompanyName = [Microsoft.VisualBasic.Interaction]::InputBox('Enter Company Name, Abbreviation', 'Company Initials')
-    Write-Output "The asset ID is $AssetID"
-    Write-Output "$SystemID-$CompanyName"
+    Write-Output "This computer will be renamed $SystemID-$CompanyName"
     Rename-Computer -NewName "$SystemID-$CompanyName"
 }
 
