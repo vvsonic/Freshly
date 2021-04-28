@@ -3,11 +3,20 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 # Begin by creating the various functions which will be called at the end of the script. You can create additional functions if needed.
 function SetPCName {
     # In our MSP we designate all systems in the format assetid-companyname for example 288111-SS
+   
     Add-Type -AssemblyName Microsoft.VisualBasic
-    $SystemID = [Microsoft.VisualBasic.Interaction]::InputBox('Enter a System ID #')
-    $CompanyName = [Microsoft.VisualBasic.Interaction]::InputBox('Enter Company Name, Abbreviation', 'Company Initials')
-    Write-Output "This computer will be renamed $SystemID-$CompanyName"
-    Rename-Computer -NewName "$SystemID-$CompanyName"
+    $rename= [Microsoft.VisualBasic.Interaction]::MsgBox(“Do you want to Rename this PC?”, ‘YesNo,Information’, “Rename This PC?”) 
+    if ($rename -match "Yes")
+    { 
+        $SystemID = [Microsoft.VisualBasic.Interaction]::InputBox('Enter a System ID #')
+        $CompanyName = [Microsoft.VisualBasic.Interaction]::InputBox('Enter Company Name, Abbreviation', 'Company Initials')
+        Write-Output "This computer will be renamed $SystemID-$CompanyName"
+        Rename-Computer -NewName "$SystemID-$CompanyName"
+    } 
+    else 
+    {
+    Write-Output "This PC will not be renamed at this time"
+    }
 }
 
 function InstallChoco {
@@ -681,14 +690,17 @@ if ($op.Count -eq 0) {
 }
 
 function RestartPC{
-    ##########
-    # Restart
-    ##########
-    Write-Host
-    Write-Host "Press any key to restart your system..." -ForegroundColor Black -BackgroundColor White
-    $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    Write-Host "Restarting..."
-    Restart-Computer
+    #Prompts if reboot is needed or not, if no will display message then end setup script#
+    
+    $reboot= [Microsoft.VisualBasic.Interaction]::MsgBox(“Do  you want to Reboot the PC?”, ‘YesNo,Information’, “Reboot”)
+    if ($reboot -match "Yes")
+    { 
+      Restart-Computer  
+    } 
+    else 
+    {
+    Write-Output "Reboot has been canceled. Please reboot at your convenivce to complete the setup"
+    }
 }
 
 
