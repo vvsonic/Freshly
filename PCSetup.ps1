@@ -5,7 +5,7 @@ function SetPCName {
     # In our MSP we designate all systems in the format assetid-companyname for example 288111-SS
    
     Add-Type -AssemblyName Microsoft.VisualBasic
-    $rename= [Microsoft.VisualBasic.Interaction]::MsgBox(“Do you want to Rename this PC?”, ‘YesNo,Information’, “Rename This PC?”) 
+    $rename= [Microsoft.VisualBasic.Interaction]::MsgBox('Do you want to Rename this PC?', ‘YesNo,Information’, 'Rename This PC?') 
     if ($rename -match "Yes")
     { 
         $SystemID = [Microsoft.VisualBasic.Interaction]::InputBox('Enter a System ID #')
