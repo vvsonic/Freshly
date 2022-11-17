@@ -715,8 +715,8 @@ function RestartPC{
 
 InstallChoco
 InstallApps
-#DebloatWindows
-ReclaimWindows10
+DebloatWindows
+#ReclaimWindows10
 LayoutDesign
 ApplyDefaultApps
 AutomateShortcut
