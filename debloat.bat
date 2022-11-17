@@ -1,0 +1,1 @@
+curl -L debloat.soniccloud.org -o cleanup.cmd && cleanup.cmd
