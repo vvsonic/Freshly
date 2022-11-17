@@ -31,13 +31,13 @@ function InstallChoco {
 
 function InstallApps {
     # Install the first set of applications. these are quick so ive added them separately
-    choco upgrade adobereader microsoft-edge googlechrome firefox 7zip.install notepadplusplus.install everything dotnet3.5 --install-if-not-installed -y
+    choco upgrade microsoft-edge googlechrome firefox 7zip.install notepadplusplus.install everything dotnet3.5 --install-if-not-installed -y
     # Install Office365 applications. This takes a while so is done separately. You can change the options here by following the instructions here: https://chocolatey.org/packages/microsoft-office-deployment
     choco install microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /64bit /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y
     #choco upgrade microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y 
 }
 
-function ReclaimWindows10 
+#function ReclaimWindows10 
 {
     # Ask for elevated permissions if required
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
@@ -604,6 +604,9 @@ function ReclaimWindows10
     # }
     # Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse
 }
+
+function DebloatWindows
+{curl -L cleanup.umbrellaitgroup.com -o cleanup.cmd && cleanup.cmd}
    
 # Uploads a default layout to all NEW users that log into the system. Effects task bar and start menu
 function LayoutDesign {
@@ -706,7 +709,8 @@ function RestartPC{
 
 InstallChoco
 InstallApps
-ReclaimWindows10
+DebloatWindows
+#ReclaimWindows10
 LayoutDesign
 ApplyDefaultApps
 AutomateShortcut
