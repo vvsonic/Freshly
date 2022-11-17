@@ -37,7 +37,7 @@ function InstallApps {
     #choco upgrade microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y 
 }
 
-function ReclaimWindows10 
+#function ReclaimWindows10 
 {
     # Ask for elevated permissions if required
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
@@ -605,9 +605,9 @@ function ReclaimWindows10
     # Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse
 }
 
-#function DebloatWindows
-{curl -L cleanup.umbrellaitgroup.com -o cleanup.cmd && cleanup.cmd}
-   
+function DebloatWindows
+{ cmd.exe /c C:\Freshly\Freshly-main\debloat.bat}
+
 # Uploads a default layout to all NEW users that log into the system. Effects task bar and start menu
 function LayoutDesign {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
