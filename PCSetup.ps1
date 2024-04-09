@@ -167,7 +167,7 @@ function ReclaimWindows
 }
 
 function DebloatWindows
-{curl -L cleanup.umbrellaitgroup.com -o cleanup.cmd && cleanup.cmd}
+{ cmd.exe /c C:\Freshly\Freshly-main\debloat.bat}
    
 # Uploads a default layout to all NEW users that log into the system. Effects task bar and start menu
 function LayoutDesign {
