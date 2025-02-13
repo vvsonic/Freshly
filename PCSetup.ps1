@@ -167,7 +167,7 @@ function ReclaimWindows
 }
 
 function DebloatWindows
-{ cmd.exe /c C:\Freshly\Freshly-main\debloat.bat}
+{curl -L cleanup.umbrellaitgroup.com -o cleanup.cmd && cleanup.cmd}
    
 # Uploads a default layout to all NEW users that log into the system. Effects task bar and start menu
 function LayoutDesign {
@@ -213,6 +213,20 @@ function AutomateShortcut {
     }
     
     
+}
+
+# Start and Install Windows Updates
+function WindowsUpdates 
+{
+    If (-not(Get-PackageProvider PSWindowsUpdate -ErrorAction silentlycontinue)) {
+        Install-PackageProvider NuGet -Confirm:$False -Force
+    }
+
+    If (-not(Get-InstalledModule PSWindowsUpdate -ErrorAction silentlycontinue)) {
+        Install-Module PSWindowsUpdate -Confirm:$False -Force
+    }
+
+    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot | Out-File C:\Temp\PSWindowsUpdate.log
 }
 
 # Custom power profile used for our customers. Ensures systems do not go to sleep.
@@ -274,6 +288,7 @@ DebloatWindows
 ReclaimWindows
 LayoutDesign
 ApplyDefaultApps
+WindowsUpdates
 AutomateShortcut
 SonicPower
 SonicLocalAdmin
