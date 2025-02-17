@@ -31,7 +31,7 @@ function InstallChoco {
 
 function InstallApps {
     # Install the first set of applications. these are quick so ive added them separately
-    choco upgrade microsoft-edge googlechrome firefox 7zip.install notepadplusplus.install everything dotnet3.5 --install-if-not-installed -y
+    choco upgrade microsoft-edge googlechrome firefox 7zip.install notepadplusplus.install adobereader dotnet3.5 --install-if-not-installed -y
     # Install Office365 applications. This takes a while so is done separately. You can change the options here by following the instructions here: https://chocolatey.org/packages/microsoft-office-deployment
     choco install microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /64bit /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y
     #choco upgrade microsoft-office-deployment --params="'/Channel:Monthly /Language:en-us /Product:O365BusinessRetail /Exclude:Lync,Groove'" -y 
@@ -167,7 +167,8 @@ function ReclaimWindows
 }
 
 function DebloatWindows
-{curl -L cleanup.umbrellaitgroup.com -o cleanup.cmd && cleanup.cmd}
+#{curl -L cleanup.umbrellaitgroup.com -o cleanup.cmd && cleanup.cmd}
+{ cmd.exe /c C:\Freshly\Freshly-main\debloat.bat}
    
 # Uploads a default layout to all NEW users that log into the system. Effects task bar and start menu
 function LayoutDesign {
