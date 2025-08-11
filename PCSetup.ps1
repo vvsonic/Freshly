@@ -217,18 +217,28 @@ function AutomateShortcut {
 }
 
 # Start and Install Windows Updates
-function WindowsUpdates 
-{
-    If (-not(Get-PackageProvider PSWindowsUpdate -ErrorAction silentlycontinue)) {
-        Install-PackageProvider NuGet -Confirm:$False -Force
+function WindowsUpdates {
+    # Ensure C:\Freshly exists for the log
+    New-Item -ItemType Directory -Path "C:\Freshly" -Force | Out-Null
+
+    # Ensure NuGet provider is installed
+    if (-not (Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
+        Install-PackageProvider -Name NuGet -Force -Confirm:$false
     }
 
-    If (-not(Get-InstalledModule PSWindowsUpdate -ErrorAction silentlycontinue)) {
-        Install-Module PSWindowsUpdate -Confirm:$False -Force
+    # Ensure PSWindowsUpdate module is installed
+    if (-not (Get-InstalledModule -Name PSWindowsUpdate -ErrorAction SilentlyContinue)) {
+        Install-Module -Name PSWindowsUpdate -Force -Confirm:$false
     }
 
-    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot | Out-File C:\Freshly\PSWindowsUpdate.log
+    # Import the module just in case
+    Import-Module PSWindowsUpdate -Force
+
+    # Run updates and log both standard and error output
+    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot *>&1 |
+        Tee-Object -FilePath "C:\Freshly\PSWindowsUpdate.log" -Append
 }
+
 
 # Custom power profile used for our customers. Ensures systems do not go to sleep.
 function SonicPower {
