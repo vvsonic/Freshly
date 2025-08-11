@@ -227,7 +227,7 @@ function WindowsUpdates
         Install-Module PSWindowsUpdate -Confirm:$False -Force
     }
 
-    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot | Out-File C:\Temp\PSWindowsUpdate.log
+    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot | Out-File C:\Freshly\PSWindowsUpdate.log
 }
 
 # Custom power profile used for our customers. Ensures systems do not go to sleep.
@@ -287,11 +287,11 @@ InstallChoco
 InstallApps
 DebloatWindows
 ReclaimWindows
-LayoutDesign
-ApplyDefaultApps
+#LayoutDesign
+#ApplyDefaultApps
 WindowsUpdates
 AutomateShortcut
 SonicPower
 SonicLocalAdmin
-SetPCName
+#SetPCName
 RestartPC
